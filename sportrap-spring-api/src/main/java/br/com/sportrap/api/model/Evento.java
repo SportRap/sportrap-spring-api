@@ -3,25 +3,47 @@ package br.com.sportrap.api.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+
+import org.springframework.data.annotation.Id;
+
 import br.com.sportrap.api.model.enums.EsporteEnum;
 
+@Entity(name = "EVENTO")
 public class Evento {
-
-	private int id;
+	@Id
+	private long id;
+	
+	@Column (name = "DESCRICAO_EVENTO")
 	private String descricao;
+	
+	@Column (name = "DATA_EVENTO")
 	private Date dataEvento;
+	
+	@Column (name = "LOCAL_EVENTO")
 	private String localEvento;
+	
+	@Column
 	private EsporteEnum esporteEscolhido;
+	
+	@Column
 	private int maxJogadoresPorTime;
+	
+	@ElementCollection
 	private List<Usuario> time1;
+	@ElementCollection
 	private List<Usuario> time2;
+	
+	@Column (name = "CRIADOR_EVENTO")
 	private Usuario criadorEvento;
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

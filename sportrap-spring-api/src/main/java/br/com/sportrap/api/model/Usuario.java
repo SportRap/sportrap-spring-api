@@ -2,16 +2,32 @@ package br.com.sportrap.api.model;
 
 import java.util.Date;
 
-import br.com.sportrap.api.model.enums.EsporteEnum;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
+import org.springframework.data.annotation.Id;
+
+import br.com.sportrap.api.model.enums.EsporteEnum;
+@Entity
 public class Usuario {
 	
+	@Id
 	private int id;
+	@Column (name = "NOME_COMPLETO")	
 	private String nomeCompleto;
+	@Column (name = "DATA_NASC")
 	private Date dataNascimento;
+	@Column (name = "NOME_USUARIO")
 	private String nomeUsuario;
+	@Column (name = "EMAIL")
 	private String email;
+	@Column (name = "SENHA")
 	private String senha;
+	
+	@Enumerated(EnumType.ORDINAL)
+	@Column (name = "ESPORTE_FAVORITO")
 	private EsporteEnum esporteFavorito;
 	
 	public int getId() {
