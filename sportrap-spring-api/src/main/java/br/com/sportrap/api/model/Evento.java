@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 import org.springframework.data.annotation.Id;
 
@@ -25,7 +27,8 @@ public class Evento {
 	@Column (name = "LOCAL_EVENTO")
 	private String localEvento;
 	
-	@Column
+	@Column(name="ENUM_JOGADORES_TIME") 
+	@Enumerated(EnumType.STRING) 
 	private EsporteEnum esporteEscolhido;
 	
 	@Column

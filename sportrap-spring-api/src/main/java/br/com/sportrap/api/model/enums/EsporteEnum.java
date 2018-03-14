@@ -11,8 +11,6 @@ public enum EsporteEnum {
 	VOLEIBOL_QUADRA(6),
 	FUTSAL(5);
 	
-	@Column(name="ENUM_JOGADORES_TIME") 
-	@Enumerated(EnumType.STRING) 
 	private int jogadoresPorTime;
 
 	private EsporteEnum(int jogadoresPorTime) {
