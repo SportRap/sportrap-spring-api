@@ -4,9 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Server_Main {
-	
+public class SportRapApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(Server_Main.class, args);
+		SpringApplication.run(SportRapApplication.class, args);
 	}
 }
