@@ -2,9 +2,8 @@ package br.com.sportrap.api.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +29,7 @@ public class UsuarioController extends BaseController<Usuario> {
 	}
 
 	@PostMapping("/login")
-	public boolean login(@Valid @RequestBody Usuario usuarioLogin) {
+	public boolean login(@Validated @RequestBody Usuario usuarioLogin) {
 		if (usuarioRepository.verificarCredenciaisLogin(usuarioLogin) != null) {
 			// Login realizado com sucesso
 			return true;
@@ -41,7 +40,7 @@ public class UsuarioController extends BaseController<Usuario> {
 	}
 
 	@GetMapping("/novo")
-	public boolean verificacaoUsuarioExistente(@Valid @RequestBody String nomeUsuario) {
+	public boolean verificacaoUsuarioExistente(@Validated @RequestBody String nomeUsuario) {
 		Usuario usuarioExistente = usuarioRepository.buscarComNomeExistente(nomeUsuario);
 
 		if (usuarioExistente != null) {
@@ -54,7 +53,7 @@ public class UsuarioController extends BaseController<Usuario> {
 	}
 
 	@PostMapping("/novo")
-	public boolean cadastrarNovoUsuario(@Valid @RequestBody Usuario usuarioNovo) {
+	public boolean cadastrarNovoUsuario(@Validated @RequestBody Usuario usuarioNovo) {
 		return super.create(usuarioNovo) != null;
 	}
 }
