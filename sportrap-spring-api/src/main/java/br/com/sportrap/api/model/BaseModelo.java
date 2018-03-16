@@ -11,16 +11,20 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @SuppressWarnings("serial")
-public class BaseModelo implements Serializable{
-	
+public class BaseModelo implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Basic(optional = false)  
+	@Basic(optional = false)
 	@Column(name = "id", nullable = false)
 	private long id;
 
-	public long getId() { return id;}
+	public long getId() {
+		return id;
+	}
 
-	public void setId(long id) { this.id = id;}
+	public void setId(long id) {
+		this.id = id;
+	}
 
 }
