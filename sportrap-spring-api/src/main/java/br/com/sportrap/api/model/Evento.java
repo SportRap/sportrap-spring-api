@@ -1,5 +1,6 @@
 package br.com.sportrap.api.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -18,8 +19,10 @@ import br.com.sportrap.api.model.enums.EsporteEnum;
 
 @Entity
 @Table(name = "evento")
-public class Evento {
-	
+public class Evento implements Serializable {
+
+	private static final long serialVersionUID = -3122717511654597318L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
