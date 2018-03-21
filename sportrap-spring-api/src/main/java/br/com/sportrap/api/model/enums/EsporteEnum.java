@@ -1,10 +1,5 @@
 package br.com.sportrap.api.model.enums;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
-
 public enum EsporteEnum {
 	BASQUETE(10),
 	FUTEBOL(11),
