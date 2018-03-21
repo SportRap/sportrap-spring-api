@@ -1,5 +1,6 @@
 package br.com.sportrap.api.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -8,39 +9,46 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Table;
 
 import org.springframework.data.annotation.Id;
 
 import br.com.sportrap.api.model.enums.EsporteEnum;
 
-@Entity(name = "EVENTO")
-public class Evento {
+@Entity
+@Table(name = "evento")
+public class Evento implements Serializable {
+
+	private static final long serialVersionUID = -3122717511654597318L;
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 	
-	@Column (name = "DESCRICAO_EVENTO")
+	@Column (name = "descricao")
 	private String descricao;
 	
-	@Column (name = "DATA_EVENTO")
+	@Column (name = "data_evento")
 	private Date dataEvento;
 	
-	@Column (name = "LOCAL_EVENTO")
+	@Column (name = "local_evento")
 	private String localEvento;
 	
-	@Column(name="ENUM_JOGADORES_TIME") 
-	@Enumerated(EnumType.STRING) 
-	private EsporteEnum esporteEscolhido;
+	@Column (name = "criador_evento")
+	private Usuario criadorEvento;
 	
-	@Column
-	private int maxJogadoresPorTime;
+	@Column(name="esporte_escolhido_enum") 
+	@Enumerated(EnumType.STRING) 
+	private EsporteEnum esporteEscolhidoEnum;
 	
 	@ElementCollection
 	private List<Usuario> time1;
+	
 	@ElementCollection
 	private List<Usuario> time2;
 	
-	@Column (name = "CRIADOR_EVENTO")
-	private Usuario criadorEvento;
 
 	public long getId() {
 		return id;
@@ -74,20 +82,12 @@ public class Evento {
 		this.localEvento = localEvento;
 	}
 
-	public EsporteEnum getEsporteEscolhido() {
-		return esporteEscolhido;
+	public EsporteEnum getEsporteEscolhidoEnum() {
+		return esporteEscolhidoEnum;
 	}
 
-	public void setEsporteEscolhido(EsporteEnum esporteEscolhido) {
-		this.esporteEscolhido = esporteEscolhido;
-	}
-
-	public int getMaxJogadoresPorTime() {
-		return maxJogadoresPorTime;
-	}
-
-	public void setMaxJogadoresPorTime(int maxJogadoresPorTime) {
-		this.maxJogadoresPorTime = maxJogadoresPorTime;
+	public void setEsporteEscolhidoEnum(EsporteEnum esporteEscolhidoEnum) {
+		this.esporteEscolhidoEnum = esporteEscolhidoEnum;
 	}
 
 	public List<Usuario> getTime1() {
