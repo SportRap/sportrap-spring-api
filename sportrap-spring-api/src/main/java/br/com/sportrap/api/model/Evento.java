@@ -18,7 +18,6 @@ import org.springframework.data.annotation.Id;
 import br.com.sportrap.api.model.enums.EsporteEnum;
 
 @Entity
-@Table(name = "evento")
 public class Evento implements Serializable {
 
 	private static final long serialVersionUID = -3122717511654597318L;

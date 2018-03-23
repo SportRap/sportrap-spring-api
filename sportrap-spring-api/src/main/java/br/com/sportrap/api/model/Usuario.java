@@ -12,11 +12,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.sportrap.api.model.enums.EsporteEnum;
 
 @Entity
 @Table(name = "usuario")
+@RequestMapping("/usuario")
 public class Usuario implements Serializable{
 
 	private static final long serialVersionUID = 343165237932713051L;

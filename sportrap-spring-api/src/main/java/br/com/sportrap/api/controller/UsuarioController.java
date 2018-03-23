@@ -24,9 +24,9 @@ public class UsuarioController extends BaseController<Usuario> {
 	UsuarioRepository usuarioRepository;
 
 	@GetMapping("/listar")
-	public List<Usuario> listarUsuarios() {
-		return super.getAll();
-	}
+//	public List<Usuario> listarUsuarios() {
+//		return super.getAll();
+//	}
 
 	@PostMapping("/login")
 	public boolean login(@Validated @RequestBody Usuario usuarioLogin) {
@@ -52,8 +52,8 @@ public class UsuarioController extends BaseController<Usuario> {
 		}
 	}
 
-	@PostMapping("/novo")
-	public boolean cadastrarNovoUsuario(@Validated @RequestBody Usuario usuarioNovo) {
-		return super.create(usuarioNovo) != null;
-	}
+//	@PostMapping("/novo")
+//	public boolean cadastrarNovoUsuario(@Validated @RequestBody Usuario usuarioNovo) {
+//		return super.create(usuarioNovo) != null;
+//	}
 }
