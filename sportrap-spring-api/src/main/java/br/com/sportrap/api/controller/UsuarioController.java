@@ -11,26 +11,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.sportrap.api.controller.generics.BaseController;
 import br.com.sportrap.api.model.Usuario;
 import br.com.sportrap.api.repository.UsuarioRepository;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/usuario")
-public class UsuarioController extends BaseController<Usuario> {
+public class UsuarioController {
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
 
 	@GetMapping("/listar")
-//	public List<Usuario> listarUsuarios() {
-//		return super.getAll();
-//	}
+	public List<Usuario> listarUsuarios() {
+		return usuarioRepository.findAll();
+	}
 
 	@PostMapping("/login")
 	public boolean login(@Validated @RequestBody Usuario usuarioLogin) {
-		if (usuarioRepository.verificarCredenciaisLogin(usuarioLogin) != null) {
+		if (usuarioRepository.verificarCredenciaisLogin(usuarioLogin.getNomeUsuario(),
+				usuarioLogin.getSenha()) != null) {
 			// Login realizado com sucesso
 			return true;
 		} else {
@@ -52,8 +52,8 @@ public class UsuarioController extends BaseController<Usuario> {
 		}
 	}
 
-//	@PostMapping("/novo")
-//	public boolean cadastrarNovoUsuario(@Validated @RequestBody Usuario usuarioNovo) {
-//		return super.create(usuarioNovo) != null;
-//	}
+	@PostMapping("/novo")
+	public boolean cadastrarNovoUsuario(@Validated @RequestBody Usuario usuarioNovo) {
+		return usuarioRepository.save(usuarioNovo) != null;
+	}
 }
