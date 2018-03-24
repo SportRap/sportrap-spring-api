@@ -4,14 +4,18 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.sportrap.api.model.enums.EsporteEnum;
@@ -25,33 +29,33 @@ public class Evento implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int id;
-	
+
 	@Column(name = "nome_evento")
 	private String nomeEvento;
-	
-	@Column (name = "descricao_evento")
+
+	@Column(name = "descricao_evento")
 	private String descricaoEvento;
-	
-	@Column (name = "data_evento")
+
+	@Column(name = "data_evento")
 	private Date dataEvento;
-	
-	@Column (name = "local_evento")
+
+	@Column(name = "local_evento")
 	private String localEvento;
-	
-	@Column (name = "criador_evento")
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_criador_evento", nullable = false)
 	private Usuario criadorEvento;
-	
-	@Column(name="esporte_escolhido_enum") 
-	@Enumerated(EnumType.STRING) 
+
+	@Column(name = "esporte_escolhido_enum")
+	@Enumerated(EnumType.STRING)
 	private EsporteEnum esporteEscolhidoEnum;
-	
-	@ElementCollection
-	private List<Usuario> time1;
-	
-	@ElementCollection
-	private List<Usuario> time2;
-	
-	
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Usuario> membrosTime1;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Usuario> membrosTime2;
+
 	public int getId() {
 		return id;
 	}
@@ -100,28 +104,28 @@ public class Evento implements Serializable {
 		this.esporteEscolhidoEnum = esporteEscolhidoEnum;
 	}
 
-	public List<Usuario> getTime1() {
-		return time1;
-	}
-
-	public void setTime1(List<Usuario> time1) {
-		this.time1 = time1;
-	}
-
-	public List<Usuario> getTime2() {
-		return time2;
-	}
-
-	public void setTime2(List<Usuario> time2) {
-		this.time2 = time2;
-	}
-
 	public Usuario getCriadorEvento() {
 		return criadorEvento;
 	}
 
 	public void setCriadorEvento(Usuario criadorEvento) {
 		this.criadorEvento = criadorEvento;
+	}
+
+	public List<Usuario> getMembrosTime1() {
+		return membrosTime1;
+	}
+
+	public void setMembrosTime1(List<Usuario> membrosTime1) {
+		this.membrosTime1 = membrosTime1;
+	}
+
+	public List<Usuario> getMembrosTime2() {
+		return membrosTime2;
+	}
+
+	public void setMembrosTime2(List<Usuario> membrosTime2) {
+		this.membrosTime2 = membrosTime2;
 	}
 
 }

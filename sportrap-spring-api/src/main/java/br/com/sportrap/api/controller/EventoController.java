@@ -35,8 +35,8 @@ public class EventoController {
 			return false;
 		} else {
 			// Evento com nome disponível para criação
-			novoEvento.setTime1(new ArrayList<>());
-			novoEvento.setTime2(new ArrayList<>());
+//			novoEvento.setMembrosTime1(new ArrayList<>());
+//			novoEvento.setMembrosTime2(new ArrayList<>());
 
 			if (eventoRepository.save(novoEvento) != null) {
 				return true;
