@@ -11,23 +11,26 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.springframework.data.annotation.Id;
 
 import br.com.sportrap.api.model.enums.EsporteEnum;
 
 @Entity
+@Table(name = "evento")
 public class Evento implements Serializable {
 
 	private static final long serialVersionUID = -3122717511654597318L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private long id;
+	private int id;
 	
-	@Column (name = "descricao")
-	private String descricao;
+	@Column(name = "nome_evento")
+	private String nomeEvento;
+	
+	@Column (name = "descricao_evento")
+	private String descricaoEvento;
 	
 	@Column (name = "data_evento")
 	private Date dataEvento;
@@ -48,21 +51,29 @@ public class Evento implements Serializable {
 	@ElementCollection
 	private List<Usuario> time2;
 	
-
-	public long getId() {
+	
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public String getNomeEvento() {
+		return nomeEvento;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setNomeEvento(String nomeEvento) {
+		this.nomeEvento = nomeEvento;
+	}
+
+	public String getDescricaoEvento() {
+		return descricaoEvento;
+	}
+
+	public void setDescricaoEvento(String descricaoEvento) {
+		this.descricaoEvento = descricaoEvento;
 	}
 
 	public Date getDataEvento() {
