@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,7 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -50,10 +50,14 @@ public class Evento implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private EsporteEnum esporteEscolhidoEnum;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "membros_time_1", joinColumns = { @JoinColumn(name = "id_evento") }, inverseJoinColumns = {
+			@JoinColumn(name = "id_usuario") })
 	private List<Usuario> membrosTime1;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "membros_time_2", joinColumns = { @JoinColumn(name = "id_evento") }, inverseJoinColumns = {
+			@JoinColumn(name = "id_usuario") })
 	private List<Usuario> membrosTime2;
 
 	public int getId() {
