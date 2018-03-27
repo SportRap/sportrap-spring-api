@@ -9,7 +9,10 @@ import br.com.sportrap.api.model.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 	@Query("SELECT u FROM Usuario u WHERE u.nomeUsuario = :nomeUsuario")
-	public Usuario buscarComNomeExistente(@Param("nomeUsuario") String nomeUsuario);
+	public Usuario buscarUsuarioComNomeExistente(@Param("nomeUsuario") String nomeUsuario);
+
+	@Query("SELECT u FROM Usuario u WHERE u.email = :emailUsuario")
+	public Usuario buscarUsuarioComEmailExistente(@Param("emailUsuario") String emailUsuario);
 
 	@Query("SELECT u FROM Usuario u WHERE u.nomeUsuario = :nomeUsuario AND u.senha = :senhaUsuario")
 	public Usuario verificarCredenciaisLogin(@Param("nomeUsuario") String nomeUsuario,
