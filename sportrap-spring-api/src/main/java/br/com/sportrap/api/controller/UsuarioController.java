@@ -82,13 +82,13 @@ public class UsuarioController {
 		if (usuarioCadastrado != null) {
 			StringBuilder mensagem = new StringBuilder();
 
-			mensagem.append("<h3><b> Caro usuário, </b></h3> \n");
-			mensagem.append("	esta é uma resposta automática ao seu pedido de senha esquecida. \n\n");
-			mensagem.append(" 	Seus dados:");
-			mensagem.append("		Nome de usário: <b>" + usuarioCadastrado.getNomeUsuario() + "</b> \n");
-			mensagem.append("		Senha: <b>" + usuarioCadastrado.getSenha() + "</b> \n");
+			mensagem.append("<h2><b> Caro usuário, </b></h2> <br/>");
+			mensagem.append("Esta é uma resposta automática ao seu pedido de senha esquecida. <br/><br/>");
+			mensagem.append("Seus dados:<br/>");
+			mensagem.append("		Nome de usário: <b>" + usuarioCadastrado.getNomeUsuario() + "</b> <br/>");
+			mensagem.append("		Senha: <b>" + usuarioCadastrado.getSenha() + " </b> \b");
 			mensagem.append(
-					"<h3> Esta é uma mensagem automática. Não responda esse email. Caso haja dúvidas, envie um email para <i> suportesportrap@gmail.com  </i>. </h3> \n");
+					"<h5> Esta é uma mensagem automática. Não responda esse email. Caso haja dúvidas, envie um email para <i> suportesportrap@gmail.com  </i>. </h5> <br/><br/>");
 
 			return enviarLoginParaUsuario(emailUsuario, mensagem, "SportRap - Senha esquecida");
 		} else {
@@ -100,37 +100,40 @@ public class UsuarioController {
 	private boolean enviarLoginParaUsuario(String emailUsuario, StringBuilder mensagem, String assunto) {
 		String de = emailUsuario;
 		String para = "suportesportrap@gmail.com";
-		String host = "localhost";
-		
+
 		Properties properties = System.getProperties();
-		properties.put("mail.smtp.host", host);
+
+		properties.put("mail.smtp.user", "SportRap");
+		properties.put("mail.smtp.host", "smtp.gmail.com");
+		properties.put("mail.smtp.port", "25");
+		properties.put("mail.debug", "true");
 		properties.put("mail.smtp.auth", "true");
-		
+		properties.put("mail.smtp.starttls.enable", "true");
+		properties.put("mail.smtp.EnableSSL.enable", "true");
+
+		properties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		properties.setProperty("mail.smtp.socketFactory.fallbac k", "false");
+		properties.setProperty("mail.smtp.port", "465");
+		properties.setProperty("mail.smtp.socketFactory.port", "465");
+
 		Authenticator authenticator = new Authenticator() {
-		    protected PasswordAuthentication getPasswordAuthentication() {
-		        return new PasswordAuthentication("suportesportrap@gmail.com", "sportrap123");
-		    }
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("suportesportrap@gmail.com", "sportrap123");
+			}
 		};
 
 		Session session = Session.getDefaultInstance(properties, authenticator);
 
 		try {
-			// Create a default MimeMessage object.
 			MimeMessage message = new MimeMessage(session);
 
-			// Set From: header field of the header.
 			message.setFrom(new InternetAddress(para));
-
-			// Set To: header field of the header.
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(de));
-
-			// Set Subject: header field
 			message.setSubject(assunto);
-
-			// Now set the actual message
-			message.setContent(mensagem, "text/html");
+			message.setContent(mensagem.toString(), "text/html");
 
 			Transport.send(message);
+
 			System.out.println("Mensagem enviada com sucesso.");
 			return true;
 		} catch (MessagingException mex) {
