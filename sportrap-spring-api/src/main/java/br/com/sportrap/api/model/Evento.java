@@ -41,6 +41,9 @@ public class Evento implements Serializable {
 
 	@Column(name = "local_evento")
 	private String localEvento;
+	
+	@Column
+	private boolean privado;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_criador_evento", nullable = false)
@@ -98,6 +101,13 @@ public class Evento implements Serializable {
 
 	public void setLocalEvento(String localEvento) {
 		this.localEvento = localEvento;
+	}
+	public boolean isPrivado() {
+		return privado;
+	}
+
+	public void setPrivado(boolean privado) {
+		this.privado = privado;
 	}
 
 	public EsporteEnum getEsporteEscolhidoEnum() {
