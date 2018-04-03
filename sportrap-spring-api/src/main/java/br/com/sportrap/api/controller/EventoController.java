@@ -28,20 +28,21 @@ public class EventoController {
 	public List<Evento> listarEventos() {
 		return eventoRepository.findAll();
 	}
-	
+
 	@GetMapping("/filtrar/{id}")
-	public List<Evento> filtrarEventos(@Validated @RequestBody String palavra){
+	public List<Evento> filtrarEventos(@Validated @RequestBody String palavra) {
 		return eventoRepository.filtrarEventos(palavra);
 	}
 
 	@PostMapping("/novo")
-	public boolean criarNovoEvento(@Validated @RequestBody Evento novoEvento, @Validated @RequestBody Usuario criadorEvento) {
+	public boolean criarNovoEvento(@Validated @RequestBody Evento novoEvento,
+			@Validated @RequestBody Usuario criadorEvento) {
 		if (eventoRepository.buscarEventoComNomeExistente(novoEvento.getNomeEvento()) != null) {
 			// Já possui um evento criado com esse nome
 			return false;
 		} else {
 			// Evento com nome disponível para criação.
-			
+
 			novoEvento.setCriadorEvento(criadorEvento);
 			novoEvento.setMembrosTime1(new ArrayList<>());
 			novoEvento.setMembrosTime2(new ArrayList<>());
@@ -50,8 +51,32 @@ public class EventoController {
 				return true;
 			}
 		}
-		
+
 		return false;
+	}
+
+	@PostMapping("/entrar")
+	public boolean participarDeEvento(@Validated @RequestBody Usuario usuario, @Validated @RequestBody long idEvento,
+			@Validated @RequestBody String time) {
+		Evento eventoEscolhido = eventoRepository.findById(idEvento).get();
+
+		switch (time) {
+		case "1":
+			eventoEscolhido.getMembrosTime1().add(usuario);
+			break;
+		case "2":
+			eventoEscolhido.getMembrosTime2().add(usuario);
+			break;
+		}
+		
+		if(eventoRepository.save(eventoEscolhido) != null){
+			// Usuário participando do evento
+			return true;
+		} else {
+			// Erro ao participar do evento. Os erros de evento privado ou evento já cheio devem ser tratados pelo front.
+			return false;
+		}
+
 	}
 
 }
