@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sportrap.api.model.Evento;
 import br.com.sportrap.api.model.Usuario;
+import br.com.sportrap.api.model.utils.Funcoes;
 import br.com.sportrap.api.repository.EventoRepository;
+import br.com.sportrap.api.repository.UsuarioRepository;
 
 @RestController
 @CrossOrigin("*")
@@ -23,6 +25,9 @@ public class EventoController {
 
 	@Autowired
 	EventoRepository eventoRepository;
+	
+	@Autowired
+	UsuarioRepository usuarioRepository;
 
 	@GetMapping("/listar")
 	public List<Evento> listarEventos() {
@@ -77,6 +82,38 @@ public class EventoController {
 			return false;
 		}
 
+	}
+	
+	@PostMapping("/convidar")
+	public boolean convidarParaEvento(@Validated @RequestBody long idEvento, 
+			@Validated @RequestBody String time,
+			@Validated @RequestBody String email) {
+		Usuario usuarioConvidado = usuarioRepository.buscarUsuarioComEmailExistente(email);
+		
+		Evento eventoConvite = eventoRepository.findById(idEvento).get();
+		
+		if(usuarioConvidado == null) {
+			//usuario nao existe
+			String pagina = "localhost/8080";
+			String link = pagina + "//novo//" + idEvento + "//" +  time + "//" + email;
+			StringBuilder mensagem = new StringBuilder();
+			
+			mensagem.append("<h2><b> Caro Usuario, </b></h2><br/>");
+			mensagem.append(" Você foi convidado por <i>" + eventoConvite.getCriadorEvento().getNomeCompleto() + "</i>");
+			mensagem.append(" para participar do evento: " + eventoConvite.getNomeEvento() + " que será realizado em " + eventoConvite.getLocalEvento());
+			mensagem.append(" para aceitar o convite e acompanhar as notificações do mesmo, acesse o link :" + link + "e faça o seu cadastro no SportRap.");
+			
+			Funcoes.enviarEmail(email, mensagem, "Você foi convidado para um evento em SportRap");
+			
+		} else {
+			
+		}
+		
+		return false;
+	}
+	
+	public boolean solicitarParticipacaoEvento() {
+			return false;
 	}
 
 }
