@@ -17,6 +17,7 @@ import br.com.sportrap.api.model.Evento;
 import br.com.sportrap.api.model.Usuario;
 import br.com.sportrap.api.repository.EventoRepository;
 import br.com.sportrap.api.repository.UsuarioRepository;
+import br.com.sportrap.api.utils.Criptografia;
 import br.com.sportrap.api.utils.Funcoes;
 
 @RestController
@@ -96,7 +97,8 @@ public class EventoController {
 		if (usuarioConvidado == null) {
 			// Usuário não existente
 			String pagina = "localhost/8080";
-			String link = pagina + "//novo//" + idEvento + "//" + time + "//" + email;
+			String link = pagina + "//novo//" + Criptografia.encriptar(idEvento) + "//";
+			pagina += Criptografia.encriptar(time) + "//" + Criptografia.encriptar(email); 
 			StringBuilder mensagem = new StringBuilder();
 
 			mensagem.append("<h2><b> Caro Usuario, </b></h2><br/>");
