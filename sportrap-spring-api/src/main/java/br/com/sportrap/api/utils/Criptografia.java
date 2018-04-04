@@ -12,11 +12,6 @@ public class Criptografia {
 		return encriptador.encrypt(palavra);
 	}
 	
-	public static String encriptar(long palavra) {		
-		encriptador.setPassword(chave);
-		return encriptador.encrypt(Long.toString(palavra));
-	}
-	
 	public static String decriptar(String palavra) {
 		encriptador.setPassword(chave);
 		return encriptador.decrypt(palavra);

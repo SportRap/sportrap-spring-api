@@ -97,7 +97,7 @@ public class EventoController {
 		if (usuarioConvidado == null) {
 			// Usuário não existente
 			String pagina = "localhost/8080";
-			String link = pagina + "//novo//" + Criptografia.encriptar(idEvento) + "//";
+			String link = pagina + "//novo//" + Criptografia.encriptar(String.valueOf(idEvento)) + "//";
 			pagina += Criptografia.encriptar(time) + "//" + Criptografia.encriptar(email); 
 			StringBuilder mensagem = new StringBuilder();
 
