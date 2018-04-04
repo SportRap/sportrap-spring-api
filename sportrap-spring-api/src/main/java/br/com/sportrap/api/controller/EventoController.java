@@ -93,27 +93,32 @@ public class EventoController {
 		Usuario usuarioConvidado = usuarioRepository.buscarUsuarioComEmailExistente(email);
 
 		Evento eventoConvite = eventoRepository.findById(idEvento).get();
+		
+		String pagina = "localhost/8080";
+		String link = "";
 
+		
+		StringBuilder mensagem = new StringBuilder();
+
+		mensagem.append("<h2><b> Caro Usuario, </b></h2><br/>");
+		mensagem.append(
+				" Você foi convidado por <i>" + eventoConvite.getCriadorEvento().getNomeCompleto() + "</i>");
+		mensagem.append(" para participar do evento: " + eventoConvite.getNomeEvento() + " que será realizado em "
+				+ eventoConvite.getLocalEvento());
+		mensagem.append(" para aceitar o convite e acompanhar as notificações do mesmo, acesse o link :" + link);
+		
 		if (usuarioConvidado == null) {
 			// Usuário não existente
-			String pagina = "localhost/8080";
-			String link = pagina + "//novo//" + Criptografia.encriptar(String.valueOf(idEvento)) + "//";
-			pagina += Criptografia.encriptar(time) + "//" + Criptografia.encriptar(email); 
-			StringBuilder mensagem = new StringBuilder();
-
-			mensagem.append("<h2><b> Caro Usuario, </b></h2><br/>");
-			mensagem.append(
-					" Você foi convidado por <i>" + eventoConvite.getCriadorEvento().getNomeCompleto() + "</i>");
-			mensagem.append(" para participar do evento: " + eventoConvite.getNomeEvento() + " que será realizado em "
-					+ eventoConvite.getLocalEvento());
-			mensagem.append(" para aceitar o convite e acompanhar as notificações do mesmo, acesse o link :" + link
-					+ "e faça o seu cadastro no SportRap.");
-
-			Funcoes.enviarEmail(email, mensagem, "Você foi convidado para um evento em SportRap");
-
+			link = pagina + "//novo//" + Criptografia.encriptar(String.valueOf(idEvento)) + "//";
+			pagina += Criptografia.encriptar(time) + "//" + Criptografia.encriptar(email);
+			mensagem.append(" e faça o seu cadastro no SportRap.");
 		} else {
-
+			//Usuario existe
+			link = pagina + "//Entrar//" + Criptografia.encriptar(String.valueOf(idEvento)) + "//";
+			pagina += Criptografia.encriptar(time) + "//" + Criptografia.encriptar(Long.toString(usuarioConvidado.getId()));
 		}
+		
+		Funcoes.enviarEmail(email, mensagem, "Você foi convidado para um evento em SportRap");
 
 		return false;
 	}
