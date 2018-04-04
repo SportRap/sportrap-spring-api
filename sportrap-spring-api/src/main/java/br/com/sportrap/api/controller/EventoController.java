@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sportrap.api.model.Evento;
 import br.com.sportrap.api.model.Usuario;
-import br.com.sportrap.api.model.utils.Funcoes;
 import br.com.sportrap.api.repository.EventoRepository;
 import br.com.sportrap.api.repository.UsuarioRepository;
+import br.com.sportrap.api.utils.Funcoes;
 
 @RestController
 @CrossOrigin("*")

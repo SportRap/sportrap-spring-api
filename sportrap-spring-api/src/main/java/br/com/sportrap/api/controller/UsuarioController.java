@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sportrap.api.model.Usuario;
-import br.com.sportrap.api.model.utils.Funcoes;
 import br.com.sportrap.api.repository.UsuarioRepository;
+import br.com.sportrap.api.utils.Funcoes;
 
 @RestController
 @CrossOrigin("*")

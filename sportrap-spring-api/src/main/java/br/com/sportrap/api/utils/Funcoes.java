@@ -1,4 +1,4 @@
-package br.com.sportrap.api.model.utils;
+package br.com.sportrap.api.utils;
 
 import java.util.Properties;
 
