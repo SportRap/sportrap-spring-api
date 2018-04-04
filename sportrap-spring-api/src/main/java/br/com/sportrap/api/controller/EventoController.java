@@ -111,15 +111,13 @@ public class EventoController {
 			// Usuário não existente
 			link = pagina + "//novo//" + Criptografia.encriptar(String.valueOf(idEvento)) + "//";
 			pagina += Criptografia.encriptar(time) + "//" + Criptografia.encriptar(email);
-
 			mensagem.append(" e faça o seu cadastro no SportRap.");
 		} else {
+			//Usuario existe
 			link = pagina + "//Entrar//" + Criptografia.encriptar(String.valueOf(idEvento)) + "//";
 			pagina += Criptografia.encriptar(time) + "//" + Criptografia.encriptar(Long.toString(usuarioConvidado.getId()));
-
 		}
 		
-
 		Funcoes.enviarEmail(email, mensagem, "Você foi convidado para um evento em SportRap");
 
 		return false;
