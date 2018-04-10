@@ -11,6 +11,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import br.com.sportrap.api.model.Evento;
+
 public class Funcoes {
 
 	public static boolean enviarEmail(String emailDestinatario, StringBuilder mensagem, String assunto) {
@@ -56,6 +58,17 @@ public class Funcoes {
 			mex.printStackTrace();
 			return false;
 		}
+	}
+	
+	public static boolean timeAceitaParticipantes(Evento evento, int time) {
+		int partPorTime = evento.getEsporteEscolhidoEnum().getJogadoresPorTime();
+				
+		if(time == 1)
+			return partPorTime < evento.getMembrosTime1().size();
+		if(time == 2)
+			return partPorTime < evento.getMembrosTime2().size();
+		
+		return false;
 	}
 
 }
