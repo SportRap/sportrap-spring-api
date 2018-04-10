@@ -64,28 +64,25 @@ public class EventoController {
 	@PostMapping("/entrar/{idEvento}/{idUsuario}/{time}")
 	public boolean participarDeEvento(@Validated @RequestHeader(value = "usuario") long idUsuario,
 			@Validated @RequestHeader(value = "idEvento") long idEvento,
-			@Validated @RequestHeader(value = "time") String time) {
+			@Validated @RequestHeader(value = "time") int time) {
 
 		Usuario usuarioParticipante = usuarioRepository.findById(idUsuario).get();
 		Evento eventoEscolhido = eventoRepository.findById(idEvento).get();
-
-		switch (time) {
-		case "1":
-			eventoEscolhido.getMembrosTime1().add(usuarioParticipante);
-			break;
-		case "2":
-			eventoEscolhido.getMembrosTime2().add(usuarioParticipante);
-			break;
+		
+		if(Funcoes.timeAceitaParticipantes(eventoEscolhido, time)){
+			switch (time) {
+			case 1:
+				eventoEscolhido.getMembrosTime1().add(usuarioParticipante);
+				break;
+			case 2:
+				eventoEscolhido.getMembrosTime2().add(usuarioParticipante);
+				break;
+			}		
+			return eventoRepository.save(eventoEscolhido) != null; //Se o retorno do save não é nulo o usuario está participando
 		}
-
-		if (eventoRepository.save(eventoEscolhido) != null) {
-			// Usuário participando do evento
-			return true;
-		} else {
-			// Erro ao participar do evento. Os erros de evento privado ou
-			// evento já cheio devem ser tratados pelo front.
-			return false;
-		}
+		// Erro ao participar do evento. Os erros de evento privado ou
+		// evento já cheio devem ser tratados pelo front.
+		return false;
 
 	}
 
@@ -123,7 +120,7 @@ public class EventoController {
 
 	@PostMapping("/novo/{idEvento}/{time}/{emailParticipante}")
 	public boolean cadastrarNovoUsuarioConvidado(@Validated @RequestHeader(value = "idEvento") long idEvento,
-			@Validated @RequestHeader(value = "time") String time,
+			@Validated @RequestHeader(value = "time") int time,
 			@Validated @RequestHeader(value = "emailParticipante") String emailParticipante) {
 		// Buscar se já existe o usuário pois ele pode ter recebido mais de um
 		// convite antes de estar cadastrado

@@ -62,7 +62,7 @@ public class Evento implements Serializable {
 	@JoinTable(name = "membros_time_2", joinColumns = { @JoinColumn(name = "id_evento") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_usuario") })
 	private List<Usuario> membrosTime2;
-
+	
 	public int getId() {
 		return id;
 	}
