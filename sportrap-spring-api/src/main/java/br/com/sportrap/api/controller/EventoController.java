@@ -129,14 +129,15 @@ public class EventoController {
 			@Validated @RequestHeader(value = "emailParticipante") String emailParticipante) {
 		// Buscar se já existe o usuário pois ele pode ter recebido mais de um
 		// convite antes de estar cadastrado
-		Usuario usuarioNovo = usuarioRepository.buscarUsuarioComEmailExistente(emailParticipante);
+		
+		Usuario usuarioNovo = usuarioRepository.buscarUsuarioComEmailExistente(Criptografia.decriptar(emailParticipante));
 
 		if (usuarioNovo == null) {
 			usuarioNovo = new Usuario();
 			usuarioNovo.setEmail(emailParticipante);
 		}
 
-		if (usuarioRepository.save(usuarioNovo) != null && participarDeEvento(usuarioNovo, idEvento, time)) {
+		if (usuarioRepository.save(usuarioNovo) != null && participarDeEvento(usuarioNovo, idEvento, Criptografia.decriptar(time))) {
 			// Vínculo ao evento salvo com sucesso
 			return true;
 		} else {
