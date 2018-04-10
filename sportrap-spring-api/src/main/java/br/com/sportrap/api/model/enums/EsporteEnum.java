@@ -2,14 +2,16 @@ package br.com.sportrap.api.model.enums;
 
 public enum EsporteEnum {
 	
-	BASQUETE(10),
-	FUTEBOL(11),
-	VOLEIBOL_QUADRA(6),
-	FUTSAL(5);
+	BSQT("Basquete de quadra", 10),
+	FUTE("Futebol", 11),
+	VOLQ("Vôlei de quadra",6),
+	FUTS("Futsal", 5);
 	
 	private int jogadoresPorTime;
+	private String descricao;
 
-	private EsporteEnum(int jogadoresPorTime) {
+	private EsporteEnum(String descricao, int jogadoresPorTime) {
+		this.descricao = descricao;
 		this.jogadoresPorTime = jogadoresPorTime;
 	}
 
@@ -20,4 +22,13 @@ public enum EsporteEnum {
 	public void setJogadoresPorTime(int jogadoresPorTime) {
 		this.jogadoresPorTime = jogadoresPorTime;
 	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	
 }
