@@ -17,7 +17,6 @@ import br.com.sportrap.api.model.Evento;
 import br.com.sportrap.api.model.Usuario;
 import br.com.sportrap.api.repository.EventoRepository;
 import br.com.sportrap.api.repository.UsuarioRepository;
-import br.com.sportrap.api.utils.Criptografia;
 import br.com.sportrap.api.utils.Funcoes;
 
 @RestController
@@ -62,17 +61,20 @@ public class EventoController {
 		return false;
 	}
 
-	@PostMapping("/entrar")
-	public boolean participarDeEvento(@Validated @RequestBody Usuario usuario, @Validated @RequestBody long idEvento,
-			@Validated @RequestBody String time) {
+	@PostMapping("/entrar/{idEvento}/{idUsuario}/{time}")
+	public boolean participarDeEvento(@Validated @RequestHeader(value = "usuario") long idUsuario,
+			@Validated @RequestHeader(value = "idEvento") long idEvento,
+			@Validated @RequestHeader(value = "time") String time) {
+
+		Usuario usuarioParticipante = usuarioRepository.findById(idUsuario).get();
 		Evento eventoEscolhido = eventoRepository.findById(idEvento).get();
 
 		switch (time) {
 		case "1":
-			eventoEscolhido.getMembrosTime1().add(usuario);
+			eventoEscolhido.getMembrosTime1().add(usuarioParticipante);
 			break;
 		case "2":
-			eventoEscolhido.getMembrosTime2().add(usuario);
+			eventoEscolhido.getMembrosTime2().add(usuarioParticipante);
 			break;
 		}
 
@@ -93,34 +95,30 @@ public class EventoController {
 		Usuario usuarioConvidado = usuarioRepository.buscarUsuarioComEmailExistente(email);
 
 		Evento eventoConvite = eventoRepository.findById(idEvento).get();
-		
+
 		String pagina = "localhost/8080";
 		String link = "";
 
-		
 		StringBuilder mensagem = new StringBuilder();
 
 		mensagem.append("<h2><b> Caro Usuario, </b></h2><br/>");
-		mensagem.append(
-				" Você foi convidado por <i>" + eventoConvite.getCriadorEvento().getNomeCompleto() + "</i>");
+		mensagem.append(" Você foi convidado por <i>" + eventoConvite.getCriadorEvento().getNomeCompleto() + "</i>");
 		mensagem.append(" para participar do evento: " + eventoConvite.getNomeEvento() + " que será realizado em "
 				+ eventoConvite.getLocalEvento());
 		mensagem.append(" para aceitar o convite e acompanhar as notificações do mesmo, acesse o link :" + link);
-		
+
 		if (usuarioConvidado == null) {
 			// Usuário não existente
-			link = pagina + "//novo//" + Criptografia.encriptar(String.valueOf(idEvento)) + "//";
-			pagina += Criptografia.encriptar(time) + "//" + Criptografia.encriptar(email);
+			link = pagina + "//novo//" + idEvento + "//";
+			pagina += time + "//" + email;
 			mensagem.append(" e faça o seu cadastro no SportRap.");
 		} else {
-			//Usuario existe
-			link = pagina + "//Entrar//" + Criptografia.encriptar(String.valueOf(idEvento)) + "//";
-			pagina += Criptografia.encriptar(time) + "//" + Criptografia.encriptar(Long.toString(usuarioConvidado.getId()));
+			// Usuario existe
+			link = pagina + "//entrar//" + idEvento + "//";
+			pagina += time + "//" + usuarioConvidado.getId();
 		}
-		
-		Funcoes.enviarEmail(email, mensagem, "Você foi convidado para um evento em SportRap");
 
-		return false;
+		return Funcoes.enviarEmail(email, mensagem, "Você foi convidado para um evento em SportRap");
 	}
 
 	@PostMapping("/novo/{idEvento}/{time}/{emailParticipante}")
@@ -129,15 +127,15 @@ public class EventoController {
 			@Validated @RequestHeader(value = "emailParticipante") String emailParticipante) {
 		// Buscar se já existe o usuário pois ele pode ter recebido mais de um
 		// convite antes de estar cadastrado
-		
-		Usuario usuarioNovo = usuarioRepository.buscarUsuarioComEmailExistente(Criptografia.decriptar(emailParticipante));
+
+		Usuario usuarioNovo = usuarioRepository.buscarUsuarioComEmailExistente(emailParticipante);
 
 		if (usuarioNovo == null) {
 			usuarioNovo = new Usuario();
 			usuarioNovo.setEmail(emailParticipante);
 		}
 
-		if (usuarioRepository.save(usuarioNovo) != null && participarDeEvento(usuarioNovo, idEvento, Criptografia.decriptar(time))) {
+		if (usuarioRepository.save(usuarioNovo) != null && participarDeEvento(usuarioNovo.getId(), idEvento, time)) {
 			// Vínculo ao evento salvo com sucesso
 			return true;
 		} else {
@@ -147,8 +145,25 @@ public class EventoController {
 
 	}
 
-	public boolean solicitarParticipacaoEvento() {
-		return false;
+	@PostMapping("/solicitar/{idEvento}/{time}/{idUsuario}")
+	public boolean solicitarParticipacaoEvento(@Validated @RequestHeader(value = "idEvento") long idEvento,
+			@Validated @RequestHeader(value = "time") String time,
+			@Validated @RequestHeader(value = "idUsuario") long idUsuario) {
+		Usuario usuarioParticipante = usuarioRepository.findById(idUsuario).get();
+		Evento evento = eventoRepository.findById(idEvento).get();
+
+		StringBuilder mensagem = new StringBuilder();
+
+		String pagina = "localhost/8080";
+
+		mensagem.append("<h2><b> Caro usuário, </b></h2><br/>");
+		mensagem.append(" O usuário de nome <i>" + usuarioParticipante.getNomeCompleto() + "</i>");
+		mensagem.append(" solicitou a partipação para seu evento: " + evento.getNomeEvento() + " que será realizado em "
+				+ evento.getLocalEvento() + ".");
+		mensagem.append(" Para confirmar a participação desse usuário, acesse o link :");
+		mensagem.append(pagina + "//entrar//" + idUsuario + "//" + time + "//" + idEvento);
+
+		return Funcoes.enviarEmail(evento.getCriadorEvento().getEmail(), mensagem, "SportRap - Confirmação de convite");
 	}
 
 }
