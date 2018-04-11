@@ -1,5 +1,7 @@
 package br.com.sportrap.api.model.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum EsporteEnum {
 	
 	BASQUETE("Basquete de quadra", 10),
@@ -9,8 +11,9 @@ public enum EsporteEnum {
 	TENIS_QUADRA("Tênis de quadra", 2),
 	TENIS_MESA("Tênis de mesa", 2);
 	
-	
+	@JsonValue
 	private int jogadoresPorTime;
+	@JsonValue
 	private String descricao;
 
 	private EsporteEnum(String descricao, int jogadoresPorTime) {
