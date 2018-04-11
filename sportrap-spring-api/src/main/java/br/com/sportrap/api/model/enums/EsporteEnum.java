@@ -13,9 +13,7 @@ public enum EsporteEnum {
 	TENIS_QUADRA("Tênis de quadra", 2),
 	TENIS_MESA("Tênis de mesa", 2);
 	
-	@JsonValue
 	private int jogadoresPorTime;
-	@JsonValue
 	private String descricao;
 
 	private EsporteEnum(String descricao, int jogadoresPorTime) {
@@ -23,6 +21,7 @@ public enum EsporteEnum {
 		this.jogadoresPorTime = jogadoresPorTime;
 	}
 
+	@JsonValue
 	public int getJogadoresPorTime() {
 		return jogadoresPorTime;
 	}
@@ -31,6 +30,7 @@ public enum EsporteEnum {
 		this.jogadoresPorTime = jogadoresPorTime;
 	}
 
+	@JsonValue
 	public String getDescricao() {
 		return descricao;
 	}
