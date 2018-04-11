@@ -1,7 +1,6 @@
 package br.com.sportrap.api.model.enums;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum EsporteEnum {
@@ -21,7 +20,6 @@ public enum EsporteEnum {
 		this.jogadoresPorTime = jogadoresPorTime;
 	}
 
-	@JsonValue
 	public int getJogadoresPorTime() {
 		return jogadoresPorTime;
 	}
@@ -30,7 +28,6 @@ public enum EsporteEnum {
 		this.jogadoresPorTime = jogadoresPorTime;
 	}
 
-	@JsonValue
 	public String getDescricao() {
 		return descricao;
 	}
