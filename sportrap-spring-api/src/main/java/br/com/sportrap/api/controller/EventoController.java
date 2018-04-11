@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sportrap.api.model.Evento;
 import br.com.sportrap.api.model.Usuario;
+import br.com.sportrap.api.model.enums.EsporteEnum;
 import br.com.sportrap.api.repository.EventoRepository;
 import br.com.sportrap.api.repository.UsuarioRepository;
 import br.com.sportrap.api.utils.Funcoes;
@@ -68,8 +69,8 @@ public class EventoController {
 
 		Usuario usuarioParticipante = usuarioRepository.findById(idUsuario).get();
 		Evento eventoEscolhido = eventoRepository.findById(idEvento).get();
-		
-		if(Funcoes.timeAceitaParticipantes(eventoEscolhido, time)){
+
+		if (Funcoes.timeAceitaParticipantes(eventoEscolhido, time)) {
 			switch (time) {
 			case 1:
 				eventoEscolhido.getMembrosTime1().add(usuarioParticipante);
@@ -77,8 +78,15 @@ public class EventoController {
 			case 2:
 				eventoEscolhido.getMembrosTime2().add(usuarioParticipante);
 				break;
-			}		
-			return eventoRepository.save(eventoEscolhido) != null; //Se o retorno do save não é nulo o usuario está participando
+			}
+			return eventoRepository.save(eventoEscolhido) != null; // Se o
+																	// retorno
+																	// do save
+																	// não é
+																	// nulo o
+																	// usuario
+																	// está
+																	// participando
 		}
 		// Erro ao participar do evento. Os erros de evento privado ou
 		// evento já cheio devem ser tratados pelo front.
@@ -161,6 +169,11 @@ public class EventoController {
 		mensagem.append(pagina + "//entrar//" + idUsuario + "//" + time + "//" + idEvento);
 
 		return Funcoes.enviarEmail(evento.getCriadorEvento().getEmail(), mensagem, "SportRap - Confirmação de convite");
+	}
+
+	@GetMapping("/descricaoEsportes")
+	public EsporteEnum[] descricaoEsportes() {
+		return EsporteEnum.values();
 	}
 
 }

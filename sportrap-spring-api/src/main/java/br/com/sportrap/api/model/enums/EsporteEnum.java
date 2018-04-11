@@ -2,10 +2,13 @@ package br.com.sportrap.api.model.enums;
 
 public enum EsporteEnum {
 	
-	BSQT("Basquete de quadra", 10),
-	FUTE("Futebol", 11),
-	VOLQ("Vôlei de quadra",6),
-	FUTS("Futsal", 5);
+	BASQUETE("Basquete de quadra", 10),
+	FUTEBOL("Futebol", 11),
+	VOLEI_QUADRA("Vôlei de quadra",6),
+	FUTSAL("Futsal", 5),
+	TENIS_QUADRA("Tênis de quadra", 2),
+	TENIS_MESA("Tênis de mesa", 2);
+	
 	
 	private int jogadoresPorTime;
 	private String descricao;
