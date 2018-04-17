@@ -30,6 +30,9 @@ public class Usuario implements Serializable{
 	@Column(name = "nome_usuario")
 	private String nomeUsuario;
 
+	@Column(name = "foto_usuario")
+	private byte[] fotoUsuario;
+	
 	@Column(name = "senha")
 	private String senha;
 
@@ -38,7 +41,7 @@ public class Usuario implements Serializable{
 
 	@Column(name = "data_nascimento")
 	private Date dataNascimento;
-
+	
 	@Column(name = "esporte_favorito_enum")
 	@Enumerated(EnumType.STRING)
 	private EsporteEnum esporteFavoritoEnum;
@@ -73,6 +76,14 @@ public class Usuario implements Serializable{
 
 	public void setNomeUsuario(String nomeUsuario) {
 		this.nomeUsuario = nomeUsuario;
+	}
+
+	public byte[] getFotoUsuario() {
+		return fotoUsuario;
+	}
+
+	public void setFotoUsuario(byte[] fotoUsuario) {
+		this.fotoUsuario = fotoUsuario;
 	}
 
 	public String getEmail() {

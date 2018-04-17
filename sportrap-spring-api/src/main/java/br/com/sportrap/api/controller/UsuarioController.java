@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -48,7 +49,8 @@ public class UsuarioController {
 
 	@GetMapping("/novo/nome/{nomeUsuario}")
 	public boolean verificarNomeUsuarioLivreParaUso(
-			@Validated @RequestHeader(value = "nomeUsuario") String nomeUsuario) {
+			//@Validated @RequestHeader(value = "nomeUsuario") String nomeUsuario) {
+			@Validated @PathVariable(value = "nomeUsuario") String nomeUsuario) {
 		Usuario usuarioExistente = usuarioRepository.buscarUsuarioComNomeExistente(nomeUsuario);
 
 		if (usuarioExistente != null) {
