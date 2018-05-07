@@ -1,6 +1,7 @@
 package br.com.sportrap.api.security.config;
 
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,7 +13,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import br.com.sportrap.api.security.jwt.JWTAuthenticationFilter;
 import br.com.sportrap.api.security.jwt.JWTAuthorizationFilter;
 
 import static br.com.sportrap.api.security.config.SecurityConstants.SIGN_UP_URL;
@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
+	
 	private UserDetailsService userDetailsService;
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -32,7 +33,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-				.anyRequest().authenticated().and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
+				.antMatchers("/api/auth/**").permitAll()
+				.anyRequest().authenticated().and()
 				.addFilter(new JWTAuthorizationFilter(authenticationManager()))
 				// this disables session creation on Spring Security
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -48,5 +50,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
 		return source;
+	}
+	
+	@Bean
+	public AuthenticationManager AuthenticationManager() throws Exception {
+		return authenticationManager();	
 	}
 }

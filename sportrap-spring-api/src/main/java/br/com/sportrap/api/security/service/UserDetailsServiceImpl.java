@@ -1,30 +1,33 @@
 package br.com.sportrap.api.security.service;
 
+import static java.util.Collections.emptyList;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.com.sportrap.api.model.ApplicationUser;
-import br.com.sportrap.api.repository.ApplicationUserRepository;
-
-import static java.util.Collections.emptyList;
+import br.com.sportrap.api.model.Usuario;
+import br.com.sportrap.api.service.UserService;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private ApplicationUserRepository applicationUserRepository;
 
-    public UserDetailsServiceImpl(ApplicationUserRepository applicationUserRepository) {
-        this.applicationUserRepository = applicationUserRepository;
-    }
+	@Autowired
+	private UserService userService;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        ApplicationUser applicationUser = applicationUserRepository.findByUsername(username);
-        if (applicationUser == null) {
-            throw new UsernameNotFoundException(username);
-        }
-        return new User(applicationUser.getUsername(), applicationUser.getPassword(), emptyList());
-    }
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Usuario usuario = userService.findByEmail(email);
+		
+		if (usuario == null) {
+			throw new UsernameNotFoundException(String.format("No user found with username '%s'.", email));
+		} else {
+			return new User(usuario.getEmail(), usuario.getSenha(), emptyList());
+		}
+
+	}
+
 }
