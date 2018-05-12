@@ -26,8 +26,12 @@ public class UsuarioController {
 	UsuarioRepository usuarioRepository;
 
 	@GetMapping("/{email}")
-	public Usuario findByEmail(@Validated @RequestHeader(value = "email") String email) {
-		return usuarioRepository.findByEmail(email);
+	public Usuario findByEmail(@Validated @PathVariable("email") String email) {
+		Usuario user = usuarioRepository.findByEmail(email);
+		if(user != null) {
+			user.setSenha(null);
+		}
+		return user;
 
 	}
 
