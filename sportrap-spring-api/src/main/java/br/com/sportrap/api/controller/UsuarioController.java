@@ -25,6 +25,12 @@ public class UsuarioController {
 	@Autowired
 	UsuarioRepository usuarioRepository;
 
+	@GetMapping("/{email}")
+	public Usuario findByEmail(@Validated @RequestHeader(value = "email") String email) {
+		return usuarioRepository.findByEmail(email);
+
+	}
+
 	@GetMapping("/listar")
 	public List<Usuario> listarUsuarios() {
 		return usuarioRepository.findAll();
@@ -49,7 +55,7 @@ public class UsuarioController {
 
 	@GetMapping("/novo/nome/{nomeUsuario}")
 	public boolean verificarNomeUsuarioLivreParaUso(
-			//@Validated @RequestHeader(value = "nomeUsuario") String nomeUsuario) {
+			// @Validated @RequestHeader(value = "nomeUsuario") String nomeUsuario) {
 			@Validated @PathVariable(value = "nomeUsuario") String nomeUsuario) {
 		Usuario usuarioExistente = usuarioRepository.buscarUsuarioComNomeExistente(nomeUsuario);
 
