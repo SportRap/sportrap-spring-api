@@ -54,15 +54,10 @@ public class Evento implements Serializable {
 	private EsporteEnum esporteEscolhidoEnum;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "membros_time_1", joinColumns = { @JoinColumn(name = "id_evento") }, inverseJoinColumns = {
+	@JoinTable(joinColumns = { @JoinColumn(name = "id_evento") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_usuario") })
-	private List<Usuario> membrosTime1;
+	private List<Usuario> membrosEvento;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "membros_time_2", joinColumns = { @JoinColumn(name = "id_evento") }, inverseJoinColumns = {
-			@JoinColumn(name = "id_usuario") })
-	private List<Usuario> membrosTime2;
-	
 	public int getId() {
 		return id;
 	}
@@ -127,19 +122,13 @@ public class Evento implements Serializable {
 	}
 
 	public List<Usuario> getMembrosTime1() {
-		return membrosTime1;
+		return membrosEvento;
 	}
 
 	public void setMembrosTime1(List<Usuario> membrosTime1) {
-		this.membrosTime1 = membrosTime1;
+		this.membrosEvento = membrosTime1;
 	}
 
-	public List<Usuario> getMembrosTime2() {
-		return membrosTime2;
-	}
 
-	public void setMembrosTime2(List<Usuario> membrosTime2) {
-		this.membrosTime2 = membrosTime2;
-	}
 
 }

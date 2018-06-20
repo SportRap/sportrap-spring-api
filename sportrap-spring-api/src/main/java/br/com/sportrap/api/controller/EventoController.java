@@ -52,7 +52,6 @@ public class EventoController {
 
 			novoEvento.setCriadorEvento(criadorEvento);
 			novoEvento.setMembrosTime1(new ArrayList<>());
-			novoEvento.setMembrosTime2(new ArrayList<>());
 
 			if (eventoRepository.save(novoEvento) != null) {
 				return true;
@@ -74,9 +73,6 @@ public class EventoController {
 			switch (time) {
 			case 1:
 				eventoEscolhido.getMembrosTime1().add(usuarioParticipante);
-				break;
-			case 2:
-				eventoEscolhido.getMembrosTime2().add(usuarioParticipante);
 				break;
 			}
 			return eventoRepository.save(eventoEscolhido) != null; // Se o

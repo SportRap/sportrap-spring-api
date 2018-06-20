@@ -65,8 +65,6 @@ public class Funcoes {
 				
 		if(time == 1)
 			return participantePorTime < evento.getMembrosTime1().size();
-		if(time == 2)
-			return participantePorTime < evento.getMembrosTime2().size();
 		
 		return false;
 	}

@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum EsporteEnum {
 	
-	BASQUETE("BASQUETE" , "Basquete de quadra", 10),
-	FUTEBOL("FUTEBOL", "Futebol", 11),
-	VOLEI_QUADRA("VOLEI_QUADRA", "Vôlei de quadra",6),
-	FUTSAL("FUTSAL", "Futsal", 5),
-	TENIS_QUADRA("TENIS_QUADRA", "Tênis de quadra", 2),
-	TENIS_MESA("TENIS_MESA", "Tênis de mesa", 2);
+	BASQUETE("BASQUETE" , "Basquete de quadra", 20),
+	FUTEBOL("FUTEBOL", "Futebol", 22),
+	VOLEI_QUADRA("VOLEI_QUADRA", "Vôlei de quadra",12),
+	FUTSAL("FUTSAL", "Futsal", 10),
+	TENIS_QUADRA("TENIS_QUADRA", "Tênis de quadra", 4),
+	TENIS_MESA("TENIS_MESA", "Tênis de mesa", 4);
 	
 	private String esporteBanco;
 	private String descricao;
