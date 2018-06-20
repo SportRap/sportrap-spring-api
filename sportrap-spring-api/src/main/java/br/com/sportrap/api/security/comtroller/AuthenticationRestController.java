@@ -3,6 +3,8 @@ package br.com.sportrap.api.security.comtroller;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +21,8 @@ import br.com.sportrap.api.model.CurrentUser;
 import br.com.sportrap.api.model.Usuario;
 import br.com.sportrap.api.security.jwt.JWTAuthenticationFilter;
 import br.com.sportrap.api.service.UserService;
+import static br.com.sportrap.api.security.config.SecurityConstants.TOKEN_PREFIX;
+
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -34,7 +38,7 @@ public class AuthenticationRestController {
 	private UserService userService;
 
 	@PostMapping(value = "/api/auth")
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody Usuario authenticationRequest)
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody Usuario authenticationRequest, HttpServletResponse response)
 			throws AuthenticationException, IOException, ServletException {
 
 		final Authentication authentication = authenticationManager
@@ -44,7 +48,11 @@ public class AuthenticationRestController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		final String token = jwtTokenUtil.generateToken(authentication);
+		
+		response.setHeader("Authorization", TOKEN_PREFIX + token);
+		
 
+		
 		final Usuario user = userService.findByEmail(authenticationRequest.getEmail());
 		user.setSenha(null);
 		return ResponseEntity.ok(new CurrentUser(token, user));
