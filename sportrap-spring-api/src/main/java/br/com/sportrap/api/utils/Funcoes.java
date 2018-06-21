@@ -63,9 +63,12 @@ public class Funcoes {
 	public static boolean timeAceitaParticipantes(Evento evento, int time) {
 		int participantePorTime = evento.getEsporteEscolhidoEnum().getJogadoresPorTime();
 				
-		if(time == 1)
+		if(time == 1){
 			return participantePorTime < evento.getMembrosTime1().size();
-		
+		}else if(time == 2){
+			return participantePorTime < evento.getMembrosTime2().size();
+		}
+			
 		return false;
 	}
 
