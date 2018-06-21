@@ -3,6 +3,7 @@ package br.com.sportrap.api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,9 @@ public class UsuarioController {
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
-
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	@GetMapping("/{email}")
 	public Usuario findByEmail(@Validated @PathVariable("email") String email) {
 		Usuario user = usuarioRepository.findByEmail(email);
@@ -52,8 +55,15 @@ public class UsuarioController {
 		}
 	}
 
+	@PostMapping("/salvar")
+	public boolean salvarUsuario(@Validated @RequestBody Usuario usuarioNovo) {
+		return usuarioRepository.save(usuarioNovo) != null;
+	}
+	
 	@PostMapping("/novo")
 	public boolean cadastrarNovoUsuario(@Validated @RequestBody Usuario usuarioNovo) {
+		usuarioNovo.setSenha(bCryptPasswordEncoder.encode(usuarioNovo.getSenha()));
+		
 		return usuarioRepository.save(usuarioNovo) != null;
 	}
 

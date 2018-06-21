@@ -1,4 +1,4 @@
-package br.com.sportrap.api.security.comtroller;
+package br.com.sportrap.api.security.controller;
 
 import java.io.IOException;
 
@@ -50,8 +50,6 @@ public class AuthenticationRestController {
 		final String token = jwtTokenUtil.generateToken(authentication);
 		
 		response.setHeader("Authorization", TOKEN_PREFIX + token);
-		
-
 		
 		final Usuario user = userService.findByEmail(authenticationRequest.getEmail());
 		user.setSenha(null);
