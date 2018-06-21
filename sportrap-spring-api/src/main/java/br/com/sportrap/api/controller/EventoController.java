@@ -42,16 +42,16 @@ public class EventoController {
 	}
 
 	@PostMapping("/novo")
-	public boolean criarNovoEvento(@Validated @RequestBody Evento novoEvento,
-			@Validated @RequestBody Usuario criadorEvento) {
+	public boolean criarNovoEvento(@Validated @RequestBody Evento novoEvento) {
 		if (eventoRepository.buscarEventoComNomeExistente(novoEvento.getNomeEvento()) != null) {
 			// Já possui um evento criado com esse nome
 			return false;
 		} else {
 			// Evento com nome disponível para criação.
 
-			novoEvento.setCriadorEvento(criadorEvento);
+//			novoEvento.setCriadorEvento(criadorEvento);
 			novoEvento.setMembrosTime1(new ArrayList<>());
+			novoEvento.setMembrosTime2(new ArrayList<>());
 
 			if (eventoRepository.save(novoEvento) != null) {
 				return true;
@@ -73,6 +73,9 @@ public class EventoController {
 			switch (time) {
 			case 1:
 				eventoEscolhido.getMembrosTime1().add(usuarioParticipante);
+				break;
+			case 2:
+				eventoEscolhido.getMembrosTime2().add(usuarioParticipante);
 				break;
 			}
 			return eventoRepository.save(eventoEscolhido) != null; // Se o
