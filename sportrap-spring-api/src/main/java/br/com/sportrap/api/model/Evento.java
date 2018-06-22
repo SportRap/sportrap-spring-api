@@ -18,10 +18,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import br.com.sportrap.api.model.enums.EsporteEnum;
 
 @Entity
 @Table(name = "evento")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Evento implements Serializable {
 
 	private static final long serialVersionUID = -3122717511654597318L;

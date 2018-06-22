@@ -52,7 +52,6 @@ public class AuthenticationRestController {
 		response.setHeader("Authorization", TOKEN_PREFIX + token);
 		
 		final Usuario user = userService.findByEmail(authenticationRequest.getEmail());
-		user.setSenha(null);
 		return ResponseEntity.ok(new CurrentUser(token, user));
 	}
 
