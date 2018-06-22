@@ -40,6 +40,11 @@ public class EventoController {
 	public List<Evento> filtrarEventos(@Validated @RequestBody String palavra) {
 		return eventoRepository.filtrarEventos(palavra);
 	}
+	
+	@PostMapping("/salvar")
+	public boolean salvarEvento(@Validated @RequestBody Evento evento) {
+		return eventoRepository.save(evento) != null;
+	}
 
 	@PostMapping("/novo")
 	public boolean criarNovoEvento(@Validated @RequestBody Evento novoEvento) {
